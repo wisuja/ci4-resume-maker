@@ -1,5 +1,7 @@
 <?php
 
+namespace App\Libraries;
+
  /** 
  * Access Careerjet's job search from PHP
  *
