@@ -19,14 +19,19 @@ class Register extends ResourceController
     }
 
     //Mendaftar userbaru
-    //http://localhost:8080/signup
+    //http://localhost:8080/register
     //method: POST
     public function create()
     {
         helper(['form']);
 
         $rules = [
-            'username' => 'required',
+            'username' => [
+                'rules' => 'required|is_unique[user.username,id,{id}]',
+                'errors' => [
+                    'is_unique' => '{field} telah digunakan'
+                ]
+            ],
             'password' => 'required',
             'name' => 'required',
             'photo' => 'required',
