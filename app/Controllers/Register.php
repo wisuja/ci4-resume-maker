@@ -16,6 +16,14 @@ class Register extends ResourceController
 
     public function index()
     {
+        $has = '$2y$10$FQ9V4A13sWOkQUoobC5ItuEOTJBf4tjh2itDyycLN3VEQwghsN16O';
+        echo (password_hash('123', PASSWORD_DEFAULT));
+        $pass = 123;
+        if (password_verify($pass, $has)) {
+            echo 'berhasil';
+        } else {
+            echo 'gagal';
+        }
     }
 
     //Mendaftar userbaru
@@ -40,9 +48,11 @@ class Register extends ResourceController
         if (!$this->validate($rules)) {
             return $this->fail($this->validator->getErrors());
         } else {
+            $pass = $this->request->getVar('password');
+            $hash = password_hash($pass, PASSWORD_BCRYPT);
             $data = [
                 'username' => $this->request->getVar('username'),
-                'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
+                'password' => $hash,
                 'name' => $this->request->getVar('name'),
                 'photo' => $this->request->getVar('photo'),
                 // 'creates_on' => date("Y-m-d H:i:s"),
