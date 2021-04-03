@@ -15,6 +15,7 @@ class Login extends ResourceController
 
     public function index()
     {
+        return view('welcome_message');
     }
 
     public function create()
@@ -28,26 +29,26 @@ class Login extends ResourceController
             return $this->fail($this->validator->getErrors());
         } else {
             $username = $this->request->getVar('username');
-            // $password = $this->request->getVar('password');
-            $hashed = $this->model->where('username', $username)->first();
-            $password = password_verify($this->request->getVar('password'), $hashed['password']);
-            $valUsername = $this->model->getUsername($username);
+            $password = $this->request->getVar('password');
 
+            $valUsername = $this->model->getUsername($username);
             if ($valUsername) {
-                $user = $this->model->getUserPassword($username, $password);
-                if ($user) {
+                $hashed = $this->model->where('username', $username)->first();
+
+                if (password_verify($password, $hashed['password'])) {
+                    $row = $this->model->where('username', $username)->first();
                     $data = [
                         "status" => 200,
-                        'id' => $user['id'],
-                        'username' => $user['username'],
-                        'photo' => $user['photo'],
+                        'id' => $row['id'],
+                        'username' => $row['username'],
+                        'photo' => $row['photo'],
                     ];
                     return $this->respond($data, 200);
                 } else {
                     return $this->failNotFound('Wrong password');
                 }
             } else {
-                return $this->failNotFound('Email not Found');
+                return $this->failNotFound('Username not Found');
             }
         }
     }
