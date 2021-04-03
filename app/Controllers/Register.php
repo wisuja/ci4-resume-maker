@@ -42,7 +42,7 @@ class Register extends ResourceController
         } else {
             $data = [
                 'username' => $this->request->getVar('username'),
-                'password' => $this->request->getVar('password'),
+                'password' => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
                 'name' => $this->request->getVar('name'),
                 'photo' => $this->request->getVar('photo'),
                 // 'creates_on' => date("Y-m-d H:i:s"),

@@ -28,8 +28,9 @@ class Login extends ResourceController
             return $this->fail($this->validator->getErrors());
         } else {
             $username = $this->request->getVar('username');
-            $password = $this->request->getVar('password');
-
+            // $password = $this->request->getVar('password');
+            $hashed = $this->model->where('username', $username)->first();
+            $password = password_verify($this->request->getVar('password'), $hashed['password']);
             $valUsername = $this->model->getUsername($username);
 
             if ($valUsername) {
