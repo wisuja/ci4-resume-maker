@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controllers;
+namespace App\Controllers\Api;
 
 use CodeIgniter\RESTful\ResourceController;
 
@@ -12,18 +12,6 @@ class Register extends ResourceController
     public function __construct()
     {
         date_default_timezone_set("Asia/Jakarta");
-    }
-
-    public function index()
-    {
-        $has = '$2y$10$FQ9V4A13sWOkQUoobC5ItuEOTJBf4tjh2itDyycLN3VEQwghsN16O';
-        echo (password_hash('123', PASSWORD_DEFAULT));
-        $pass = 123;
-        if (password_verify($pass, $has)) {
-            echo 'berhasil';
-        } else {
-            echo 'gagal';
-        }
     }
 
     //Mendaftar userbaru
