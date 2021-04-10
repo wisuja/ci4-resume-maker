@@ -31,10 +31,8 @@ $routes->setAutoRoute(true);
 
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
-$routes->get('/', 'Home::index');
-$routes->post('/api/search', 'Api/Jobsearch::search');
-$routes->post('/api/login', 'Api/Login::create');
-$routes->post('/api/register', 'Api/Register::create');
+$routes->get('/chat', 'Chat::index');
+$routes->get('/', 'Login::index');
 
 /*
  * --------------------------------------------------------------------
