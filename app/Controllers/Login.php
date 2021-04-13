@@ -7,34 +7,47 @@ class Login extends BaseController
 	use CurlRequest;
 	public function index()
 	{
-		return view('login');
+		$data = [
+			'message' => $this->session->getFlashdata('message'),
+		];
+		return view('login', $data);
 	}
 
 	public function cekLogin()
 	{
-		$session = \Config\Services::session();
 		$request = service('request');
 		$username = $request->getPost('username');
 		$password = $request->getPost('password');
 
-		// $url = "http://localhost:8000/login";
-		$url = "http://william.dumdumbros.com/login";
+		$url = "https://dumdumbros.com/login";
 		$param = array(
 			'username' => "$username",
 			'password' => "$password",
 		);
 		$header = array(
-			// 'Content-Type' => 'application/json',
-
+			// 'Content-Type' => 'multipart/form-data',
 		);
-		$tes = json_decode($this->postRequest($url, $param, $header));
+		$login = json_decode($this->postRequest($url, $param, $header));
+		if ($login->message == "User has logged in.") {
 
-		$data = array(
-			'token' => $tes->data->token,
-			'username' => $tes->data->user->username,
-		);
-		$session->set($data);
+			$data = array(
+				'token' => $login->data->token,
+				'username' => $login->data->user->username,
+			);
+			$this->session->set($data);
+			return redirect()->to('/chat');
+		} else if ($login->message == "Wrong credentials.") {
+			$this->session->setFlashdata('message', 'Wrong password');
+			return redirect()->to('/login');
+		} else if ($login->message == "User not found.") {
+			$this->session->setFlashdata('message', 'User not found');
+			return redirect()->to('/login');
+		}
+	}
 
-		return redirect()->to('/chat');
+	public function logout()
+	{
+		$this->session->destroy();
+		return redirect()->to('/login');
 	}
 }

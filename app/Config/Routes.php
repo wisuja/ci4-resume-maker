@@ -33,6 +33,7 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/chat', 'Chat::index');
 $routes->get('/', 'Login::index');
+$routes->get('/logout', 'Login::logout');
 
 /*
  * --------------------------------------------------------------------

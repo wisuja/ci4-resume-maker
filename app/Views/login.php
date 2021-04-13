@@ -28,6 +28,11 @@
                     </div>
                     <div class="row">
                         <div class="col">
+                            <?php if ($message) : ?>
+                            <div class="alert alert-danger" role="alert">
+                                <?= $message ?>
+                            </div>
+                            <?php endif; ?>
                             <form class="px-4 px-lg-5" action="<?= base_url('login/cekLogin') ?>" method="POST">
                                 <div class="mb-4">
                                     <label for="username"
@@ -53,7 +58,8 @@
                 <div class="container signbox-footer pb-4">
                     <div class="row">
                         <div class="col text-center">
-                            <a href="signup.html" class="p-0 m-0 text-decoration-none text-success fw-bold">Create
+                            <a href="<?= base_url('signup') ?>"
+                                class="p-0 m-0 text-decoration-none text-success fw-bold">Create
                                 Account!</a>
                         </div>
                     </div>
