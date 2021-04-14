@@ -11,7 +11,7 @@
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="<?= base_url('/template') ?>/style.css" />
 
     <title>Hello, world!</title>
 </head>
@@ -23,7 +23,7 @@
                 <div class="container signbox py-5 px-1">
                     <div class="row mb-3">
                         <div class="col text-center">
-                            <img src="assets/logo.png" alt="" width="50" />
+                            <img src="<?= base_url('/template') ?>/assets/logo.png" alt="" width="50" />
                         </div>
                     </div>
                     <div class="row">

@@ -10,6 +10,7 @@ class Chat extends BaseController
             return redirect()->to('/login');
         }
         echo ($this->session->get('token'));
+
         return view('chat');
     }
 }

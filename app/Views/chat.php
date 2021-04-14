@@ -11,7 +11,7 @@
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="<?= base_url('/template') ?>/style.css" />
 
     <title>Hello, world!</title>
 </head>
@@ -22,7 +22,7 @@
             <div class="col-md-10 col-sm-12 mx-auto">
                 <div class="card">
                     <div class="card-header text-uppercase fw-bolder px-4 chat-header">
-                        <img src="<?= base_url('public/template/') ?>assets/logo.png" alt="Logo Jobsfree" width="30"
+                        <img src="<?= base_url('/template') ?>/assets/logo.png" alt="Logo Jobsfree" width="30"
                             class="d-inline-block" />
                         <h1 class="d-inline-block m-0 fw-bold align-middle fs-5">
                             Jobsfree
