@@ -2,8 +2,9 @@
 
 namespace App\Controllers;
 
-trait CurlRequest {
-  public function getRequest($url, $headers = []) 
+trait CurlRequest
+{
+  public function getRequest($url, $headers = [])
   {
     $ch = curl_init();
 
@@ -12,13 +13,13 @@ trait CurlRequest {
     curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
     $result = curl_exec($ch);
-    
+
     curl_close($ch);
 
     return $result;
   }
 
-  public function postRequest($url, $parameters = [], $headers = []) 
+  public function postRequest($url, $parameters = [], $headers = [])
   {
     $ch = curl_init();
 
@@ -26,7 +27,7 @@ trait CurlRequest {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POST, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $parameters);
-    curl_setopt($ch, CURLOPT_HEADER, $headers);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
     $result = curl_exec($ch);
 

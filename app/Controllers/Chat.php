@@ -11,20 +11,33 @@ class Chat extends BaseController
         if (!session()->get('token')) {
             return redirect()->to('/login');
         }
-        // echo ($this->session->get('token'));
 
         $token = 'Bearer ' . $this->session->get('token');
 
-        // echo $token;
         $headers = [
             "Authorization: {$token}"
-            // 'Content-Type' => 'application/json'
         ];
 
-        $response = $this->getRequest('https://dumdumbros.com/chat', $headers);
-
-        var_dump($response);
-
         return view('chat');
+    }
+
+    public function chat()
+    {
+        $request = [
+            'username' => $this->request->getVar('username'),
+            'message' => $this->request->getVar('message'),
+        ];
+
+        if (!session()->get('token')) {
+            return redirect()->to('/login');
+        }
+
+        $token = 'Bearer ' . $this->session->get('token');
+
+        $headers = [
+            "Authorization: {$token}"
+        ];
+
+        return $this->postRequest("https://dumdumbros.com/chat", $request, $headers);
     }
 }

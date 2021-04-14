@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous" />
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="<?= base_url('/template') ?>/style.css" />
@@ -22,8 +21,7 @@
             <div class="col-md-10 col-sm-12 mx-auto">
                 <div class="card">
                     <div class="card-header text-uppercase fw-bolder px-4 chat-header">
-                        <img src="<?= base_url('/template') ?>/assets/logo.png" alt="Logo Jobsfree" width="30"
-                            class="d-inline-block" />
+                        <img src="<?= base_url('/template') ?>/assets/logo.png" alt="Logo Jobsfree" width="30" class="d-inline-block" />
                         <h1 class="d-inline-block m-0 fw-bold align-middle fs-5">
                             Jobsfree
                         </h1>
@@ -67,22 +65,25 @@
                         </div>
                     </div>
                     <div class="card-footer p-0">
-                        <form action="" class="h-100 w-100">
-                            <div class="input-group mb-3">
-                                <input type="text" class="form-control chat-reply border-0 px-4"
-                                    placeholder="Enter your message..." />
-                                <button class="btn btn-chat-reply" type="submit">Send</button>
-                            </div>
-                        </form>
+                        <div class="input-group mb-3">
+                            <input type="text" class="form-control chat-reply border-0 px-4" placeholder="Enter your message..." id="chatbox" name="chatbox" />
+                            <button class="btn btn-chat-reply" name="sendButton" id="sendButton" data-username="<?= session('username'); ?>">Send</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- Javascript -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous">
     </script>
+
+    <!-- jquery script -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>;
+
+    <!-- Custom Script -->
+    <script src="<?= base_url('/script') ?>/script.js" crossorigin="anonymous"></script>
+
 </body>
 
 </html>
