@@ -39,19 +39,14 @@
                                     <strong>/help</strong> List all available commands.
                                 </div>
                             </div>
-                            <div class="row mb-3 justify-content-end">
-                                <div class="col message">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed
-                                    dignissimos quisquam atque similique sit recusandae aut
-                                    mollitia reprehenderit quas quae error suscipit cum
-                                    voluptate dolorum culpa, ipsa fugiat provident asperiores?
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="card-footer p-0">
                         <div class="input-group mb-3">
                             <input type="text" class="form-control chat-reply border-0 px-4" placeholder="Enter your message..." id="chatbox" name="chatbox" required />
+                            <div class="d-flex flex-column justify-content-center align-items-center">
+                                <img src="<?= base_url('/template') ?>/assets/spinner.gif" alt="" class="justify-content-center align-items-center" width="25px" height="25px" id="spinner" style="display:none">
+                            </div>
                             <button class="btn btn-chat-reply" name="sendButton" id="sendButton" data-username="<?= session('username'); ?>">Send</button>
                         </div>
                     </div>
