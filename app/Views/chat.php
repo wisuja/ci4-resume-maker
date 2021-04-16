@@ -27,14 +27,16 @@
                         </h1>
                     </div>
                     <div class="card-body chat-body">
-                        <div class="container">
+                        <div class="container" id="chat-body-container">
                             <div class="row mb-3 justify-content-start">
                                 <div class="col reply">
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                                    Aut ipsam laudantium mollitia nobis ut libero deserunt, enim
-                                    excepturi accusamus incidunt architecto. Recusandae, quo
-                                    sequi temporibus tempora explicabo ratione perspiciatis
-                                    cupiditate.
+                                    Hi there! Is there something I can help?
+                                    <br>
+                                    <strong>/createcv</strong> Create a CV.
+                                    <br>
+                                    <strong>/history</strong> List all created CVs.
+                                    <br>
+                                    <strong>/help</strong> List all available commands.
                                 </div>
                             </div>
                             <div class="row mb-3 justify-content-end">
@@ -43,30 +45,13 @@
                                     dignissimos quisquam atque similique sit recusandae aut
                                     mollitia reprehenderit quas quae error suscipit cum
                                     voluptate dolorum culpa, ipsa fugiat provident asperiores?
-                                </div>
-                            </div>
-                            <div class="row mb-3 justify-content-end">
-                                <div class="col message">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed
-                                    dignissimos quisquam atque similique sit recusandae aut
-                                    mollitia reprehenderit quas quae error suscipit cum
-                                    voluptate dolorum culpa, ipsa fugiat provident asperiores?
-                                </div>
-                            </div>
-                            <div class="row mb-3 justify-content-start">
-                                <div class="col reply">
-                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                                    Aut ipsam laudantium mollitia nobis ut libero deserunt, enim
-                                    excepturi accusamus incidunt architecto. Recusandae, quo
-                                    sequi temporibus tempora explicabo ratione perspiciatis
-                                    cupiditate.
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="card-footer p-0">
                         <div class="input-group mb-3">
-                            <input type="text" class="form-control chat-reply border-0 px-4" placeholder="Enter your message..." id="chatbox" name="chatbox" />
+                            <input type="text" class="form-control chat-reply border-0 px-4" placeholder="Enter your message..." id="chatbox" name="chatbox" required />
                             <button class="btn btn-chat-reply" name="sendButton" id="sendButton" data-username="<?= session('username'); ?>">Send</button>
                         </div>
                     </div>

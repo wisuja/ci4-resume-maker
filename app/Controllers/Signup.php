@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use Config\Validation;
-
 class Signup extends BaseController
 {
     use CurlRequest;
@@ -18,7 +16,6 @@ class Signup extends BaseController
     public function save()
     {
         $request = service('request');
-
         $name = $request->getPost('name');
         $username = $request->getPost('username');
         $password = $request->getPost('password');
