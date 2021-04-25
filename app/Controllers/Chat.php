@@ -23,76 +23,78 @@ class Chat extends BaseController
 
     public function chat()
     {
-        // cek login atau belum
-        // if (!session()->get('token')) {
-        //     return redirect()->to('/login');
-        // }
+        // LOGIN
+        if (!session()->get('token')) {
+            return redirect()->to('/login');
+        }
 
-        // buat token jwt
-        $token = 'Bearer ' . $this->session->get('token');
-
-        // buat header api
+        // CURLRequest - HEADER
         $headers = [
-            "Authorization: {$token}"
+            "Authorization: Bearer {$this->session->get('token')}"
         ];
 
-        // tangkap data dari ajax
+        // CURLRequest - BODY
+        // POST PARAMETER
         $username = $this->request->getVar('username');
         $message = $this->request->getVar('message');
-        $createcv = ($this->request->getVar('createcv')) ? ($this->request->getVar('createcv')) : '';
-        $parameter = ($this->request->getVar('parameter')) ? $this->request->getVar('parameter') : '';
 
-        // prepare data request
-        $request = [];
-        if ($createcv && $parameter) {
-            $request = [
-                'username' => $username,
-                'message' => $message,
-                'createcv' => $createcv,
-                'parameter' => $parameter
-            ];
-        } else {
-            $request = [
-                'username' => $username,
-                'message' => $message,
-            ];
+        switch ($message) {
+            case '/history':
+                $request = [
+                    'username' => $username,
+                    'message' => $message
+                ];
+                return $this->historyCommands($request, $headers);
+                break;
+
+            default:
+                $request = [
+                    'username' => $username,
+                    'message' => $message
+                ];
+                return $this->helpCommands($request, $headers);
+                break;
         }
-
-        // tampung response dari api
-        $response = $this->postRequest("https://dumdumbros.com/chat", $request, $headers);
-
-        // return $this->chatReply($response);
-        return $this->chatReplyNH($response);
     }
 
-    // for normal chat and help
-    private function chatReplyNH($response)
+    // anonymous and help commands
+    private function helpCommands($request, $headers)
     {
-        // declare needs and accept response in string type
-        $raw = json_decode($response, true);
-        $message = $raw['message'];
+        $rawResponse = $this->postRequest("https://dumdumbros.com/chat", $request, $headers);
+        $arrResponse = json_decode($rawResponse, true);
         $details = '';
-
-        // check response for specific formatting
-        if ($raw['data']['commands']) {
-            // for normal chat & help commands 
-            foreach ($raw['data']['commands'] as $cmd) {
-                $details .=  '<br><strong>' . $cmd['command'] . '</strong> ' . $cmd['description'];
-            }
-        } else if ($raw['data']['cvs']) {
-            // for history commands
-            foreach ($raw['data']['cvs'] as $d) {
-                $details .= '';
-            }
+        foreach ($arrResponse['data']['commands'] as $cmd) {
+            $details .=  '<br><strong>' . $cmd['command'] . '</strong> ' . $cmd['description'];
         }
-        // finishing format
-        $readyText = "<div class='row mb-3 justify-content-start'> <div class='col reply'>{$message}{$details}" . "</div></div>";
+        $readyText = "<div class='row mb-3 justify-content-start'> <div class='col reply'>{$arrResponse['message']}{$details}" . "</div></div>";
 
-        // return
         return $readyText;
     }
 
-    // for create cv
+    // history commands
+    private function historyCommands($request, $headers)
+    {
+        $rawResponse = $this->postRequest("https://dumdumbros.com/chat", $request, $headers);
+        $arrResponse = json_decode($rawResponse, true);
+        $message = $arrResponse['message'];
+        $details = '';
+        if ($arrResponse['data']['cvs'][0]['url_cv'] == null) { // true
+            $message = "";
+            $details = "Oops! you haven't created any cv";
+        } else { // false
+            foreach ($arrResponse['data']['cvs'] as $cv) {
+                $urls = explode('|', $cv['url_recommendation']);
+                $links = '';
+                $i = 1;
+                foreach ($urls as $u) {
+                    $links .= "<a href='{$u}'>Link {$i}</a> |";
+                    $i++;
+                }
+                $details .=  "<hr /> Download CV <a href='https://dumdumbros.com/cv/5'>here</a><br />Your job(s) recommendation:<br /> {$links}";
+            }
+        }
+        $readyText = "<div class='row mb-3 justify-content-start'> <div class='col reply'>{$message}{$details}" . "</div></div>";
 
-
+        return $readyText;
+    }
 }

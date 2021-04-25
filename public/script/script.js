@@ -3,59 +3,61 @@ let canChat = true;
 // create chat dari user
 function createChat(messages) {
   // create element
-  let div1 = document.createElement('div');
-  let div2 = document.createElement('div');
+  let row = document.createElement("div");
+  let col = document.createElement("div");
 
   // add class
-  div1.classList.add('row');
-  div1.classList.add('mb-3');
-  div1.classList.add('justify-content-end');
-  div2.classList.add('col');
-  div2.classList.add('message');
-  div2.append(messages);
-  div1.append(div2);
-  return div1;
+  row.classList.add("row");
+  row.classList.add("mb-3");
+  row.classList.add("justify-content-end");
+  col.classList.add("col");
+  col.classList.add("message");
+  col.append(messages);
+  row.append(col);
+  return row;
 }
 
 // Listen for enter key on chatbox
-$('#chatbox').keypress(function (e) {
+$("#chatbox").keypress(function (e) {
   if (e.which == 13) {
-    $('#sendButton').click();
+    $("#sendButton").click();
     return false;
   }
 });
 
 // Kalau Send Button ditekan untuk kondisi
-$('#sendButton').on('click', function () {
+$("#sendButton").on("click", function () {
   if (canChat == false) {
-    alert('Please wait!');
+    alert("Please wait!");
     return;
   }
 
-  if ($('#chatbox').val().trim() !== '') {
+  if ($("#chatbox").val().trim() !== "") {
     canChat = false;
-    $('#spinner').show();
+    $("#spinner").show();
 
     $.ajax({
-      url: '/chats',
+      url: "/chats",
       data: {
-        username: $('#sendButton').data('username'),
-        message: $('#chatbox').val().trim(),
+        username: $("#sendButton").data("username"),
+        message: $("#chatbox").val().trim(),
       },
-      method: 'POST',
+      method: "POST",
       success: function (result) {
-        $('#chat-body-container').append(
-          createChat($('#chatbox').val().trim())
+        console.log(result);
+        $("#chat-body-container").append(
+          createChat($("#chatbox").val().trim())
         );
-        $('#chat-body-container').append(result);
-        $('#chatbox').val('');
+        $("#chat-body-container").append(result);
+        $("#chatbox").val("");
 
-        $('.col').last()[0].scrollIntoView();
+        $(".col").last()[0].scrollIntoView();
 
         canChat = true;
-        $('#spinner').hide();
+        $("#spinner").hide();
       },
     });
   } else {
+    return alert("You are trying to chat nothing");
   }
 });
