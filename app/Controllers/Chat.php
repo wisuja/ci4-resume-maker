@@ -5,18 +5,13 @@ namespace App\Controllers;
 class Chat extends BaseController
 {
     use CurlRequest;
+    private $endpoint = "https://dumdumbros.com/chat";
 
     public function index()
     {
         if (!session()->get('token')) {
             return redirect()->to('/login');
         }
-
-        $token = 'Bearer ' . $this->session->get('token');
-
-        $headers = [
-            "Authorization: {$token}"
-        ];
 
         return view('chat');
     }
@@ -38,20 +33,16 @@ class Chat extends BaseController
         $username = $this->request->getVar('username');
         $message = $this->request->getVar('message');
 
+        $request = [
+            'username' => $username,
+            'message' => $message
+        ];
+
         switch ($message) {
             case '/history':
-                $request = [
-                    'username' => $username,
-                    'message' => $message
-                ];
                 return $this->historyCommands($request, $headers);
                 break;
-
             default:
-                $request = [
-                    'username' => $username,
-                    'message' => $message
-                ];
                 return $this->helpCommands($request, $headers);
                 break;
         }
@@ -60,13 +51,12 @@ class Chat extends BaseController
     // anonymous and help commands
     private function helpCommands($request, $headers)
     {
-        $rawResponse = $this->postRequest("https://dumdumbros.com/chat", $request, $headers);
-        $arrResponse = json_decode($rawResponse, true);
+        [$message, $data] = $this->postRequestToChat($request, $headers);
         $details = '';
-        foreach ($arrResponse['data']['commands'] as $cmd) {
+        foreach ($data['commands'] as $cmd) {
             $details .=  '<br><strong>' . $cmd['command'] . '</strong> ' . $cmd['description'];
         }
-        $readyText = "<div class='row mb-3 justify-content-start'> <div class='col reply'>{$arrResponse['message']}{$details}" . "</div></div>";
+        $readyText = "<div class='row mb-3 justify-content-start'> <div class='col reply'>{$message}{$details}" . "</div></div>";
 
         return $readyText;
     }
@@ -74,27 +64,34 @@ class Chat extends BaseController
     // history commands
     private function historyCommands($request, $headers)
     {
-        $rawResponse = $this->postRequest("https://dumdumbros.com/chat", $request, $headers);
-        $arrResponse = json_decode($rawResponse, true);
-        $message = $arrResponse['message'];
+        [$message, $data] = $this->postRequestToChat($request, $headers);
+
         $details = '';
-        if ($arrResponse['data']['cvs'][0]['url_cv'] == null) { // true
+
+        $cvs = $data["cvs"];
+        $cvs = array_filter($cvs, fn ($cv) => $cv["url_cv"] !== null); // filter cv yang url_cv tidak null
+
+        if (empty($cvs)) { // true
             $message = "";
             $details = "Oops! you haven't created any cv";
         } else { // false
-            foreach ($arrResponse['data']['cvs'] as $cv) {
+            foreach ($cvs as $cv) {
                 $urls = explode('|', $cv['url_recommendation']);
                 $links = '';
-                $i = 1;
-                foreach ($urls as $u) {
-                    $links .= "<a href='{$u}'>Link {$i}</a> |";
-                    $i++;
+                foreach ($urls as $index => $u) {
+                    $links .= "<a href='{$u}'>Link ". ($index + 1) ." </a> |";
                 }
-                $details .=  "<hr /> Download CV <a href='https://dumdumbros.com/cv/5'>here</a><br />Your job(s) recommendation:<br /> {$links}";
+                $details .=  "<hr /> Download CV <a href='{$cv["url_cv"]}'>here</a><br />Your job(s) recommendation:<br /> {$links}";
             }
         }
         $readyText = "<div class='row mb-3 justify-content-start'> <div class='col reply'>{$message}{$details}" . "</div></div>";
 
         return $readyText;
+    }
+
+    private function postRequestToChat($request, $headers) {
+        $response = json_decode($this->postRequest($this->endpoint, $request, $headers), true);
+
+        return [$response["message"], $response["data"]];
     }
 }

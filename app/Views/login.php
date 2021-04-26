@@ -39,14 +39,14 @@
                                         class="form-label form-label-custom fw-bold text-uppercase">Username</label>
                                     <input type="text"
                                         class="form-control form-sign-custom py-3 px-4 shadow-sm border-0 fw-bold"
-                                        id="username" name="username" value="tes" placeholder="tes" />
+                                        id="username" name="username" value="user" />
                                 </div>
                                 <div class="mb-4">
                                     <label for="password"
                                         class="form-label form-label-custom fw-bold text-uppercase">Password</label>
                                     <input type="password"
                                         class="form-control form-sign-custom py-3 px-4 shadow-sm border-0 fw-bold"
-                                        id="password" name="password" value="123" placeholder="123" />
+                                        id="password" name="password" value="123" />
                                 </div>
                                 <button type="submit" class="btn btn-success text-center w-100">
                                     Sign In
