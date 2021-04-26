@@ -37,6 +37,8 @@
                                     <strong>/history</strong> List all created CVs.
                                     <br>
                                     <strong>/help</strong> List all available commands.
+                                    <br>
+                                    <strong>/logout</strong> Log out of this session.
                                 </div>
                             </div>
                         </div>
