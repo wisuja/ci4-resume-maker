@@ -123,7 +123,7 @@ class Chat extends BaseController
 
         [$message, $data] = $this->postRequestToChat($request, $headers);
         $createcv = $data['createcv'];
-        $parameter = $data['parameter'];
+        $parameter = $data['parameter'] == null ? '' : $data["parameter"];
         $details = '';
         session()->set([
             'createcv' => $createcv,
