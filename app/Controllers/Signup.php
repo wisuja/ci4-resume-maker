@@ -52,7 +52,7 @@ class Signup extends BaseController
             return redirect()->to('/signup')->withInput();
         }
 
-        $url = "https://dumdumbros.com/register";
+        $url = "http://localhost:8000/register";
         $param = array(
             'name' => "$name",
             'username' => "$username",

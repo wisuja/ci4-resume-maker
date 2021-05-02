@@ -16,6 +16,8 @@
 </head>
 
 <body id="chat">
+    <?php var_dump(session()->get('createcv')); ?>
+    <?php var_dump(session()->get('parameter')); ?>
     <div class="container chat-window h-100 d-flex align-items-center justify-content-center">
         <div class="row w-100">
             <div class="col-md-10 col-sm-12 mx-auto">

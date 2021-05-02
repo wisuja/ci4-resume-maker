@@ -19,7 +19,7 @@ class Login extends BaseController
 		$username = $request->getPost('username');
 		$password = $request->getPost('password');
 
-		$url = "https://dumdumbros.com/login";
+		$url = "http://localhost:8000/login";
 		$param = array(
 			'username' => "$username",
 			'password' => "$password",
@@ -33,6 +33,8 @@ class Login extends BaseController
 			$data = array(
 				'token' => $login->data->token,
 				'username' => $login->data->user->username,
+				'createcv' => false,
+				'parameter' => 'name'
 			);
 			$this->session->set($data);
 			return redirect()->to('/chat');
