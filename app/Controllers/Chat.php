@@ -2,8 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Libraries\Careerjet_API;
-
 class Chat extends BaseController
 {
     use CurlRequest;
