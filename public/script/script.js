@@ -49,7 +49,6 @@ $("#sendButton").on("click", function () {
       },
       method: "POST",
       success: function (result) {
-        console.log(result);
         $("#chat-body-container").append(
           createChat($("#chatbox").val().trim())
         );
@@ -65,4 +64,23 @@ $("#sendButton").on("click", function () {
   } else {
     return alert("You are trying to chat nothing");
   }
+});
+
+// Kalau Profile Button ditekan
+$("#profileButton").on("click", function () {
+  console.log($("#profileButton").data("username"));
+  $.ajax({
+    url: "/profile",
+    data: {
+      username: $("#profileButton").data("username"),
+    },
+    method: "POST",
+    success: function (result) {
+      console.log(result);
+      let obj = JSON.parse(result);
+      console.log(obj.data.user.name);
+      $("#username").val(obj.data.user.username);
+      $("#name").val(obj.data.user.name);
+    },
+  });
 });

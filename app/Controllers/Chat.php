@@ -122,12 +122,14 @@ class Chat extends BaseController
         */
 
         [$message, $data] = $this->postRequestToChat($request, $headers);
+
         $createcv = $data['createcv'];
         $parameter = $data['parameter'] == null ? '' : $data["parameter"];
         $details = '';
+        $links = '';
         session()->set([
             'createcv' => $createcv,
-            'parameter' => $parameter
+            'parameter' => ($parameter) ? $parameter : 'name'
         ]);
 
         switch ($parameter) {
@@ -166,6 +168,13 @@ class Chat extends BaseController
                 $details = '';
                 break;
         }
+        if ($data['url_recommendation']) {
+            $url = json_decode($this->getRequest($data['url_recommendation'], $headers), true);
+            foreach ($url['data'] as $index => $u) {
+                $links .= "<a href='{$u}'>Link " . ($index + 1) . " </a> |";
+            }
+            $details .=  "<hr /> Download CV <a href='{$data['url_cv']}'>here</a><br />Your job(s) recommendation:<br /> {$links}";
+        }
 
         $readyText = "<div class='row mb-3 justify-content-start'> <div class='col reply'>{$message}<br/>{$details}" . "</div></div>";
 
@@ -175,68 +184,5 @@ class Chat extends BaseController
     // untuk test code
     public function test()
     {
-        $request = [
-            'username' => 'asd',
-            'message' => 'https://dangduck.github.io',
-            'parameter' => 'links',
-            'createcv' => true
-        ];
-        $headers = [
-            "Authorization: Bearer {$this->session->get('token')}"
-        ];
-
-        [$message, $data] = $this->postRequestToChat($request, $headers);
-        dd($this->postRequestToChat($request, $headers));
-        $createcv = $data['createcv'];
-        $parameter = $data['parameter'];
-        $details = '';
-
-        if ($createcv != null || $parameter != null) {
-            session()->set([
-                'createcv' => $createcv,
-                'parameter' => $parameter
-            ]);
-        }
-
-        switch ($parameter) {
-                // name, email, phone, address, keywords, skills, description, education, work_experiences, links
-            case 'name':
-                $details = 'Please fill your name!';
-                break;
-            case 'email':
-                $details = 'Please fill your active email with correct mail format (e.g. jobsfree@gmail.com)';
-                break;
-            case 'phone':
-                $details = 'Please fill your active phone number with correct phone number format (e.g. 08136475768117)';
-                break;
-            case 'address':
-                $details = 'Please let us know where do you live';
-                break;
-            case 'keywords':
-                $details = 'What kind of jobs that you want us to recommend you? Let us know the keywords! Use | to separate each keyword! (e.g. PHP Developer|Web Designer)';
-                break;
-            case 'skills':
-                $details = 'What kind of skill you acquire? Use | to separate each skill! (e.g. Javascript|PHP)';
-                break;
-            case 'description':
-                $details = 'Tell us more about you, describe yourself!';
-                break;
-            case 'education':
-                $details = 'How about your education? Use | to separate each education! (Format you must follow e.g. Information Systems, UIB, 2018-2022|IPA, SMA 1, 2015-2018)';
-                break;
-            case 'work_experiences':
-                $details = 'Did you have any work experiences? Please let us know too! Use | to separate each work experiences (Format you must follow e.g. Software Engineer, Google, 2021|Tech Lead, Facebook, 2020)';
-                break;
-            case 'links':
-                $details = 'Any links of your social media or your personal site? Please let us know! Use | to separate each work experiences (e.g. https://user.com|https://linkedin.com/in/user)';
-                break;
-            default:
-                $details = '';
-                break;
-        }
-
-        $readyText = "<div class='row mb-3 justify-content-start'> <div class='col reply'>{$message}{$details}" . "</div></div>";
-
-        return $readyText;
     }
 }

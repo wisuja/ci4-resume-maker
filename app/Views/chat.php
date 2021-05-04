@@ -12,18 +12,60 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="<?= base_url('/template') ?>/style.css" />
 
-    <title>Hello, world!</title>
+    <title>Jobsfree | Chatbot</title>
 </head>
 
 <body id="chat">
-    <?php var_dump(session()->get('createcv')); ?>
-    <?php var_dump(session()->get('parameter')); ?>
     <div class="container chat-window h-100 d-flex align-items-center justify-content-center">
         <div class="row w-100">
             <div class="col-md-10 col-sm-12 mx-auto">
+                <?php if (session()->getFlashdata('statusUpdate')) : ?>
+                    <div class="alert alert-<?= (session()->getFlashdata('statusUpdate') == 'success') ? 'success' : 'danger' ?>"><?= (session()->getFlashdata('statusUpdate') == 'success') ? "Profile updated" : "Failed to update profile" ?> </div>
+                <?php endif; ?>
                 <div class="card">
                     <div class="card-header text-uppercase fw-bolder px-4 chat-header">
-                        <img src="<?= base_url('/template') ?>/assets/logo.png" alt="Logo Jobsfree" width="30" class="d-inline-block" />
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-transparent" data-bs-toggle="modal" data-bs-target="#profileModal" id="profileButton" data-username="<?= session()->get('username') ?>">
+                            <img src="<?= base_url('/template') ?>/assets/logo.png" alt="Logo Jobsfree" width="30" class="d-inline-block" />
+                        </button>
+                        <!-- Modal -->
+                        <div class="modal fade" id="profileModal" tabindex="-1" aria-labelledby="profileModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="profileModalLabel">Update Profile</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <form action="<?= base_url('/profile/update') ?>" method="POST">
+                                        <div class="modal-body">
+                                            <h3>Your Data</h3>
+                                            <div class="mb-3">
+                                                <label for="username" class="col-form-label">Username:</label>
+                                                <input type="text" class="form-control" id="username" disabled>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="name" class="col-form-label">name:</label>
+                                                <input type="text" class="form-control" id="name" name="name">
+                                            </div>
+                                            <hr>
+                                            <h3>Change Password</h3>
+                                            <div class="mb-3">
+                                                <label for="newPassword" class="col-form-label">New Password:</label>
+                                                <input type="password" class="form-control" id="newPassword" name="newPassword">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="confirmationPassword" class="col-form-label">Re-enter Password:</label>
+                                                <input type="password" class="form-control" id="confirmationPassword" name="confirmationPassword">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                         <h1 class="d-inline-block m-0 fw-bold align-middle fs-5">
                             Jobsfree
                         </h1>
