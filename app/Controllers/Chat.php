@@ -103,9 +103,9 @@ class Chat extends BaseController
                 $urls = explode('|', $cv['url_recommendation']);
                 $links = '';
                 foreach ($urls as $index => $u) {
-                    $links .= "<a href='{$u}'>Link " . ($index + 1) . " </a> |";
+                    $links .= "<a href='{$u}' target='_blank'>Link " . ($index + 1) . " </a> |";
                 }
-                $details .=  "<hr /> Download CV <a href='{$cv["url_cv"]}'>here</a><br />Your job(s) recommendation:<br /> {$links}";
+                $details .=  "<hr /> Download CV <a href='{$cv["url_cv"]}' target='_blank'>here</a><br />Your job(s) recommendation:<br /> {$links}";
             }
         }
         $readyText = "<div class='row mb-3 justify-content-start'> <div class='col reply'>{$message}{$details}" . "</div></div>";
@@ -171,9 +171,9 @@ class Chat extends BaseController
         if ($data['url_recommendation']) {
             $url = json_decode($this->getRequest($data['url_recommendation'], $headers), true);
             foreach ($url['data'] as $index => $u) {
-                $links .= "<a href='{$u}'>Link " . ($index + 1) . " </a> |";
+                $links .= "<a href='{$u}' target='_blank'>Link " . ($index + 1) . " </a> |";
             }
-            $details .=  "<hr /> Download CV <a href='{$data['url_cv']}'>here</a><br />Your job(s) recommendation:<br /> {$links}";
+            $details .=  "<hr /> Download CV <a href='{$data['url_cv']}' target='_blank'>here</a><br />Your job(s) recommendation:<br /> {$links}";
         }
 
         $readyText = "<div class='row mb-3 justify-content-start'> <div class='col reply'>{$message}<br/>{$details}" . "</div></div>";
